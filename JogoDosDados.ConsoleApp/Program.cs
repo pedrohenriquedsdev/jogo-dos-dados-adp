@@ -13,22 +13,44 @@ class Program
 {
     static void Main(string[] args)
     {
+        const int limiteLinhaChegada = 30;
+
         while (true)
         {
-            Console.Clear();
-            Console.WriteLine("=========================");
-            Console.WriteLine("Jogo dos Dados");
-            Console.WriteLine("=========================");
+            int posicaoDoJogador = 0;
+            bool jogoEstaEmAndamento = true;
 
-            //Lógica do Jogo 
-            Console.Write("Pressione enter para lançar um dado...");
-            Console.ReadLine();
+            while (jogoEstaEmAndamento)
+            {
+                Console.Clear();
+                Console.WriteLine("=========================");
+                Console.WriteLine("Jogo dos Dados");
+                Console.WriteLine("=========================");
 
-            int resultado = RandomNumberGenerator.GetInt32(1, 7);
+                //Lógica do Jogo 
+                Console.Write("Pressione enter para lançar um dado...");
+                Console.ReadLine();
 
-            Console.WriteLine("=========================");
-            Console.WriteLine($"O número sorteado foi: {resultado}");
-            Console.WriteLine("=========================");
+                int resultado = RandomNumberGenerator.GetInt32(1, 7);
+
+                Console.WriteLine("=========================");
+                Console.WriteLine($"O número sorteado foi: {resultado}");
+                Console.WriteLine("=========================");
+
+                posicaoDoJogador += resultado;
+
+                if (posicaoDoJogador < limiteLinhaChegada)
+                    Console.WriteLine($"Você está na posicão: {posicaoDoJogador} de {limiteLinhaChegada}");
+                else
+                    {
+                        Console.WriteLine("Parábens você alcançou a linha de chegada");
+                        jogoEstaEmAndamento = false;
+                    }
+
+                    Console.Write("Pressione enter para continuar...");
+                    Console.ReadLine();
+                
+            }
 
             //Controle de Saída do User
             Console.Write("Deseeja Continuar? (s/N): ");
