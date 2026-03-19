@@ -14,6 +14,8 @@ class Program
     static void Main(string[] args)
     {
         const int limiteLinhaChegada = 30;
+        const int bonusAvancoExtra = 3;
+        const int penalidadeDoRecuo = 2;
 
         while (true)
         {
@@ -39,17 +41,33 @@ class Program
 
                 posicaoDoJogador += resultado;
 
-                if (posicaoDoJogador < limiteLinhaChegada)
-                    Console.WriteLine($"Você está na posicão: {posicaoDoJogador} de {limiteLinhaChegada}");
-                else
-                    {
-                        Console.WriteLine("Parábens você alcançou a linha de chegada");
-                        jogoEstaEmAndamento = false;
-                    }
+                Console.WriteLine($"Você está na posicão: {posicaoDoJogador} de {limiteLinhaChegada}");
 
-                    Console.Write("Pressione enter para continuar...");
-                    Console.ReadLine();
-                
+                //VALIDAMOS ALGUMAS BONIFICAÇÕES E PENALIDADAES   
+                if (posicaoDoJogador == 5 || posicaoDoJogador == 10 || posicaoDoJogador == 15 || posicaoDoJogador == 25)
+                {
+                    Console.WriteLine($"EVENTO: Avanço de casas extra: {bonusAvancoExtra} casas");
+                    posicaoDoJogador += bonusAvancoExtra;
+                    Console.WriteLine($"Nova Posicão: {posicaoDoJogador} de {limiteLinhaChegada}");
+                }
+                else if (posicaoDoJogador == 7 || posicaoDoJogador == 13 || posicaoDoJogador == 20)
+                {
+                    Console.WriteLine($"PENALIDADE: Avanço de casas extra: {penalidadeDoRecuo} casas");
+                    posicaoDoJogador -= penalidadeDoRecuo;
+                    Console.WriteLine($"Nova Posicão: {posicaoDoJogador} de {limiteLinhaChegada}");
+                }
+
+                //CONFERIMOS A POSIÇÃO DO JOGADOR
+                if (posicaoDoJogador >= limiteLinhaChegada)
+                {
+                    Console.WriteLine("Parábens você alcançou a linha de chegada");
+                    jogoEstaEmAndamento = false;
+                }
+
+                Console.WriteLine();
+                Console.Write("Pressione enter para continuar...");
+                Console.ReadLine();
+
             }
 
             //Controle de Saída do User
