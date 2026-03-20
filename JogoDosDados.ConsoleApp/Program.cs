@@ -4,6 +4,8 @@ namespace JogoDosDados.ConsoleApp;
 
 /*
 
+v2
+Rrefatoração Estruturada 
 
 
 */
@@ -25,58 +27,79 @@ class Program
 
             while (jogoEstaEmAndamento)
             {
-
-                //Lógica do Jogagor
-                // Console.Clear();
-                Console.WriteLine("=========================");
-                Console.WriteLine("Jogo dos Dados");
-                Console.WriteLine("=========================");
-                Console.WriteLine("Rodada Do Jogador");
-                Console.WriteLine("=========================");
-
-                Console.Write("Pressione enter para lançar um dado...");
-                Console.ReadLine();
-
-                int resultadoDoJogador = RandomNumberGenerator.GetInt32(1, 7);
-
-                Console.WriteLine("=========================");
-                Console.WriteLine($"O número sorteado foi: {resultadoDoJogador}");
-                Console.WriteLine("=========================");
-
-                posicaoDoJogador += resultadoDoJogador;
-
-                Console.WriteLine($"Você está na posicão: {posicaoDoJogador} de {limiteLinhaChegada}");
-
-                //VALIDAMOS ALGUMAS BONIFICAÇÕES E PENALIDADAES   
-                if (posicaoDoJogador == 5 || posicaoDoJogador == 10 || posicaoDoJogador == 15 || posicaoDoJogador == 25)
+                #region Rodada Do Jogador
+                do
                 {
-                    Console.WriteLine($"EVENTO: Avanço de casas extra: {bonusAvancoExtra} casas");
-                    posicaoDoJogador += bonusAvancoExtra;
-                    Console.WriteLine($"Nova Posicão: {posicaoDoJogador} de {limiteLinhaChegada}");
-                }
-                else if (posicaoDoJogador == 7 || posicaoDoJogador == 13 || posicaoDoJogador == 20)
-                {
-                    Console.WriteLine($"PENALIDADE: Recuo de casas: {penalidadeDoRecuo} casas");
-                    posicaoDoJogador -= penalidadeDoRecuo;
-                    Console.WriteLine($"Nova Posicão: {posicaoDoJogador} de {limiteLinhaChegada}");
-                }
+                    // Console.Clear();
+                    Console.WriteLine("=========================");
+                    Console.WriteLine("Jogo dos Dados");
+                    Console.WriteLine("=========================");
+                    Console.WriteLine("Rodada Do Jogador");
+                    Console.WriteLine("=========================");
 
-                //CONFERIMOS A POSIÇÃO DO JOGADOR
-                if (posicaoDoJogador >= limiteLinhaChegada)
-                {
-                    Console.WriteLine("Parábens você alcançou a linha de chegada");
-                    jogoEstaEmAndamento = false;
+                    Console.Write("Pressione enter para lançar um dado...");
                     Console.ReadLine();
-                    continue;
 
-                }
+                    int resultadoDoJogador = RandomNumberGenerator.GetInt32(1, 7);
 
-                Console.WriteLine();
-                Console.Write("Pressione enter para continuar...");
-                Console.ReadLine();
+                    Console.WriteLine("=========================");
+                    Console.WriteLine($"O número sorteado foi: {resultadoDoJogador}");
+                    Console.WriteLine("=========================");
+
+                    posicaoDoJogador += resultadoDoJogador;
+
+                    Console.WriteLine($"Você está na posicão: {posicaoDoJogador} de {limiteLinhaChegada}");
+
+                    //VALIDAMOS ALGUMAS BONIFICAÇÕES E PENALIDADAES   
+                    if (posicaoDoJogador == 5 || posicaoDoJogador == 10 || posicaoDoJogador == 15 || posicaoDoJogador == 25)
+                    {
+                        Console.WriteLine($"EVENTO: Avanço de casas extra: {bonusAvancoExtra} casas");
+                        posicaoDoJogador += bonusAvancoExtra;
+                        Console.WriteLine($"Nova Posicão: {posicaoDoJogador} de {limiteLinhaChegada}");
+                    }
+                    else if (posicaoDoJogador == 7 || posicaoDoJogador == 13 || posicaoDoJogador == 20)
+                    {
+                        Console.WriteLine($"PENALIDADE: Recuo de casas: {penalidadeDoRecuo} casas");
+                        posicaoDoJogador -= penalidadeDoRecuo;
+                        Console.WriteLine($"Nova Posicão: {posicaoDoJogador} de {limiteLinhaChegada}");
+                    }
+
+                    //CONFERIMOS A POSIÇÃO DO JOGADOR
+                    if (posicaoDoJogador >= limiteLinhaChegada)
+                    {
+                        Console.WriteLine("Parábens você alcançou a linha de chegada");
+                        jogoEstaEmAndamento = false;
+                        Console.ReadLine();
+
+                        break;
+                    }
+
+                    if (resultadoDoJogador == 6)
+                    {
+                        Console.WriteLine("=========================");
+                        Console.WriteLine($"EVENTO: Rodada Extra");
+                        Console.WriteLine("=========================");
+                        Console.Write("Pressione enter para jogar novamente...");
+                        Console.ReadLine();
+
+                        continue; //Volta para o início do loop
+
+                    }
+
+                    else
+                    {
+                        Console.Write("Pressione enter para continuar...");
+                        Console.ReadLine();
+
+                        break; //sai do loop e encerra a rodada do jogador
+                    }
 
 
-                //Implementação do Turno do Computador
+                } while (true);
+
+                #endregion
+
+                #region Rodada Do Computaador
                 Console.WriteLine("=========================");
                 Console.WriteLine("Rodada Do Computador");
                 Console.WriteLine("=========================");
@@ -104,12 +127,13 @@ class Program
                     Console.WriteLine($"Nova Posicão: {posicaoDoComputador} de {limiteLinhaChegada}");
                 }
 
-                //CONFERIMOS A POSIÇÃO DO JOGADOR
+
                 if (posicaoDoComputador >= limiteLinhaChegada)
                 {
                     Console.WriteLine("Que pena o computador alcançou a linha de chegada.");
                     jogoEstaEmAndamento = false;
                 }
+                #endregion
 
             }
 
